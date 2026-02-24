@@ -1,0 +1,67 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Strona główna - Portfolio Kart{% endblock %}
+{% block content %}
+<div class="text-center my-5">
+    <h1 class="display-4">Witaj w Portfolio Kart Kolekcjonerskich!</h1>
+    <p class="lead">Zarządzaj swoją kolekcją kart w jednym miejscu.</p>
+    
+    {% if user.is_authenticated %}
+        <a href="{% url 'portfolio_view' %}" class="btn btn-primary btn-lg">Przejdź do Mojego Portfolio</a>
+    {% else %}
+        <div class="mt-4">
+            <a href="{% url 'register' %}" class="btn btn-success btn-lg me-2">Zarejestruj się</a>
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Zaloguj się</a>
+        </div>
+    {% endif %}
+</div>
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3>📋 Zarządzaj</h3>
+                <p>Dodawaj, edytuj i usuwaj karty ze swojego portfolio.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3>💰 Śledź wartość</h3>
+                <p>Automatyczne obliczanie wartości Twojej kolekcji.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3>📊 Historia</h3>
+                <p>Przeglądaj historię dodawania oraz inne portfolia.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="my-5">
+
+<h2 class="mb-3">Portfolia użytkowników</h2>
+
+<div class="row row-cols-1 row-cols-md-3 g-3">
+  {% for p in public_portfolios %}
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ p.user.username }}</h5>
+          <div class="text-muted small">Liczba kart: {{ p.cards_count }}</div>
+          <div class="text-muted small">Wartość: {{ p.total_value_annot|floatformat:2 }} zł</div>
+
+          <a class="btn btn-outline-primary btn-sm mt-3"
+             href="{% url 'user_portfolio' p.user.username %}">
+            Zobacz portfolio
+          </a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-muted">Brak innych portfoliów do wyświetlenia.</p>
+  {% endfor %}
+</div>
+{% endblock %}

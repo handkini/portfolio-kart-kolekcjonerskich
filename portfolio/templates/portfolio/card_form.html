@@ -1,0 +1,59 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}
+  {% if mode == "edit" %}Edytuj kartę{% else %}Dodaj kartę{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="h4 mb-3">
+      {% if mode == "edit" %}Edytuj kartę{% else %}Dodaj kartę do portfolio{% endif %}
+    </h2>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">{{ form.card.label }}</label>
+          {{ form.card }}
+          <div class="text-danger small">{{ form.card.errors }}</div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">{{ form.condition.label }}</label>
+          {{ form.condition }}
+          <div class="text-danger small">{{ form.condition.errors }}</div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">{{ form.price.label }}</label>
+          {{ form.price }}
+          <div class="text-danger small">{{ form.price.errors }}</div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">{{ form.notes.label }}</label>
+          {{ form.notes }}
+          <div class="text-danger small">{{ form.notes.errors }}</div>
+        </div>
+
+        <div class="col-12">
+          <label class="form-label">{{ form.image.label }}</label>
+          {{ form.image }}
+          <div class="text-danger small">{{ form.image.errors }}</div>
+        </div>
+      </div>
+
+      <div class="mt-4 d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Zapisz</button>
+        <a class="btn btn-outline-secondary" href="{% url 'portfolio_view' %}">Anuluj</a>
+      </div>
+    </form>
+
+    <div class="mt-3 text-muted small">
+      Jeśli nie widzisz karty na liście, dodaj ją najpierw w panelu admina (CardSet + Card).
+    </div>
+  </div>
+</div>
+{% endblock %}

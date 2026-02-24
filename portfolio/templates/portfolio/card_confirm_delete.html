@@ -1,0 +1,26 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Usuń kartę{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="h4 mb-3">Usunąć tę kartę z portfolio?</h2>
+
+    <p class="mb-2">
+      <strong>{{ card_instance.card.name }}</strong>
+      — {{ card_instance.card.card_set.name }} #{{ card_instance.card.card_number }}
+    </p>
+
+    {% if card_instance.image %}
+      <img src="{{ card_instance.image.url }}" alt="zdjęcie"
+           style="height:220px; width:220px; object-fit:cover; border-radius:8px;">
+    {% endif %}
+
+    <form method="post" class="mt-4 d-flex gap-2">
+      {% csrf_token %}
+      <button class="btn btn-danger" type="submit">Tak, usuń</button>
+      <a class="btn btn-outline-secondary" href="{% url 'portfolio_view' %}">Anuluj</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
